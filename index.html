@@ -1,0 +1,433 @@
+<!-- V-FACTOR STUDIOS // @_the_v_factor_ // BUILT BY VINAY — PRODUCTION HTML -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#04050a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="screen-orientation" content="landscape">
+  <meta name="x5-orientation" content="landscape">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob: https: http:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://cdnjs.cloudflare.com https://unpkg.com; worker-src 'self' blob:; child-src 'self' blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' ws: wss: http: https: https://*.peerjs.com wss://*.peerjs.com stun: turn: turns:;">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%2300f0ff'/><path d='M16 4 L26 25 L16 20 L6 25 Z' fill='%2304050a'/></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='14' fill='%2300f0ff'/><path d='M16 4 L26 25 L16 20 L6 25 Z' fill='%2304050a'/></svg>">
+  <title>TURBO RACER — V-FACTOR STUDIOS</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Synchronous CDN Scripts (Guarantees THREE and Peer are defined before core.js runs) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+    if (screen.orientation && screen.orientation.lock) {
+      window.addEventListener('click', function() {
+        screen.orientation.lock('landscape').catch(function() {});
+      }, { once: true });
+      window.addEventListener('touchstart', function() {
+        screen.orientation.lock('landscape').catch(function() {});
+      }, { once: true });
+    }
+  </script>
+</head>
+<body>
+
+  <div id="landscape-lock-overlay" class="landscape-lock-layer"></div>
+
+  <canvas id="game-canvas"></canvas>
+
+  <!-- 1. Studio Cinematic Launch Bay Intro Layer -->
+  <div id="intro-screen" class="screen-layer active">
+    <div class="intro-top-bar">
+      <div class="intro-title">V-FACTOR STUDIOS</div>
+      <div class="intro-subtitle">BUILT BY VINAY</div>
+      <span id="intro-phase-label" style="display:none !important;"></span>
+    </div>
+    <div class="intro-center-window"></div>
+    <div class="intro-bottom-bar">
+      <div id="intro-loader-track" class="loader-track">
+        <div class="loader-bar-bg">
+          <div id="intro-loader-fill"></div>
+        </div>
+        <div id="intro-rocket-capsule"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Main Menu & Multiplayer Lobbies -->
+  <div id="menu-screen" class="screen-layer">
+    <div class="menu-header">
+      <div class="game-logo">TURBO RACER</div>
+      <div class="pill-badge">V-FACTOR STUDIOS · BUILT BY VINAY</div>
+    </div>
+
+    <div id="menu-sub-root" class="menu-substep active">
+      <button class="mode-btn" id="btn-nav-mp">
+        <span>MULTIPLAYER</span>
+        <span>&rsaquo;</span>
+      </button>
+      <button class="mode-btn" id="btn-nav-endless">
+        <span>ENDLESS MODE</span>
+        <span>&rsaquo;</span>
+      </button>
+      <button class="mode-btn" id="btn-nav-shift">
+        <span>SHIFT MODE</span>
+        <span>&rsaquo;</span>
+      </button>
+    </div>
+
+    <div id="menu-sub-mp-mode" class="glass-card menu-substep">
+      <div class="panel-top-row">
+        <span class="panel-title">MULTIPLAYER MODE</span>
+        <button class="small-btn" id="btn-mp-back">BACK</button>
+      </div>
+      <button class="mode-btn" id="btn-mp-solo">
+        <span>SOLO MATCH (8–10P)</span>
+        <span>&rsaquo;</span>
+      </button>
+      <button class="mode-btn" id="btn-mp-team">
+        <span>2v2 TEAM CLASH</span>
+        <span>&rsaquo;</span>
+      </button>
+    </div>
+
+    <div id="menu-sub-mp-action" class="glass-card menu-substep">
+      <div class="panel-top-row">
+        <span class="panel-title">LOBBY ACCESS</span>
+        <button class="small-btn" id="btn-mp-action-back">BACK</button>
+      </div>
+      <button class="mode-btn" id="btn-mp-host">
+        <span>HOST GAME</span>
+        <span>&rsaquo;</span>
+      </button>
+      <button class="mode-btn" id="btn-mp-join-view">
+        <span>JOIN GAME</span>
+        <span>&rsaquo;</span>
+      </button>
+    </div>
+
+    <div id="menu-sub-join-input" class="glass-card menu-substep">
+      <div class="panel-top-row">
+        <span class="panel-title">JOIN ROOM</span>
+        <button class="small-btn" id="btn-join-back">BACK</button>
+      </div>
+      <input id="join-room-input" class="text-input" type="text" maxlength="20" autocomplete="off" spellcheck="false" placeholder="SOLO-XXXX-X or TEAM-XXXX-X">
+      <div id="join-status-msg" class="join-status-msg">Enter Host Room ID to connect.</div>
+      <button class="primary-btn" id="btn-join-connect">JOIN ROOM</button>
+    </div>
+
+    <div id="menu-sub-solo-lobby" class="glass-card menu-substep">
+      <div class="panel-top-row">
+        <span class="panel-title">SOLO MATCH LOBBY (10 SLOTS)</span>
+        <button class="small-btn" id="btn-solo-lobby-back">BACK</button>
+      </div>
+      <div class="room-code-bar">
+        <span id="solo-room-code-display">SOLO-0000-0</span>
+        <div class="room-code-actions">
+          <button class="small-btn" id="btn-solo-copy">COPY ID</button>
+          <button class="btn-secondary small-btn" id="btn-solo-share">SHARE</button>
+        </div>
+      </div>
+      <div id="solo-slots-grid"></div>
+      <button class="interchange-btn" id="btn-solo-interchange">INTERCHANGE PLACE</button>
+      <div id="solo-host-controls" class="host-controls-stack">
+        <div class="dist-row">
+          <select id="solo-win-dist-select" class="select-input">
+            <option value="500">500m (Sprint)</option>
+            <option value="1000">1000m (Standard)</option>
+            <option value="1500" selected>1500m (Championship)</option>
+            <option value="2000">2000m (Endurance)</option>
+            <option value="3000">3000m (Marathon)</option>
+            <option value="5000">5000m (Ultra)</option>
+          </select>
+          <button class="small-btn" id="btn-solo-dist-minus">-250m</button>
+          <button class="small-btn" id="btn-solo-dist-plus">+250m</button>
+          <span class="dist-badge" id="solo-dist-badge">1500m</span>
+        </div>
+        <select id="solo-theme-select" class="select-input"></select>
+      </div>
+      <div id="solo-joiner-info" class="lobby-info-line">
+        Target Distance: <strong class="info-dist" id="solo-joiner-dist">1500m</strong> · Theme: <strong class="info-theme" id="solo-joiner-theme">Auto-Cycle</strong>
+      </div>
+      <button class="primary-btn" id="btn-solo-ready" style="display:none;">CLICK TO READY UP</button>
+      <button class="primary-btn" id="btn-solo-start" disabled>START GAME</button>
+    </div>
+
+    <div id="menu-sub-team-lobby" class="glass-card menu-substep">
+      <div class="panel-top-row">
+        <span class="panel-title">2v2 TEAM CLASH LOBBY</span>
+        <button class="small-btn" id="btn-team-lobby-back">BACK</button>
+      </div>
+      <div class="room-code-bar">
+        <span id="team-room-code-display">TEAM-0000-0</span>
+        <div class="room-code-actions">
+          <button class="small-btn" id="btn-team-copy">COPY ID</button>
+          <button class="btn-secondary small-btn" id="btn-team-share">SHARE</button>
+        </div>
+      </div>
+      <div id="team-seats-grid">
+        <div class="team-col-box">
+          <div class="team-col-header team-1-color">TEAM 1 (3 SHIELDS)</div>
+          <div class="slot-card" data-seat="1A"><span>Seat 1A</span><span id="seat-label-1A">HOST</span></div>
+          <div class="slot-card vacant" data-seat="1B"><span>Seat 1B</span><span id="seat-label-1B">VACANT</span></div>
+        </div>
+        <div class="team-col-box">
+          <div class="team-col-header team-2-color">TEAM 2 (3 SHIELDS)</div>
+          <div class="slot-card vacant" data-seat="2A"><span>Seat 2A</span><span id="seat-label-2A">VACANT</span></div>
+          <div class="slot-card vacant" data-seat="2B"><span>Seat 2B</span><span id="seat-label-2B">VACANT</span></div>
+        </div>
+      </div>
+      <button class="interchange-btn" id="btn-team-interchange">INTERCHANGE PLACE</button>
+      <div id="team-host-controls" class="host-controls-stack">
+        <div class="dist-row">
+          <select id="team-win-dist-select" class="select-input">
+            <option value="500">500m (Sprint)</option>
+            <option value="1000">1000m (Standard)</option>
+            <option value="1500" selected>1500m (Championship)</option>
+            <option value="2000">2000m (Endurance)</option>
+            <option value="3000">3000m (Marathon)</option>
+            <option value="5000">5000m (Ultra)</option>
+          </select>
+          <button class="small-btn" id="btn-team-dist-minus">-250m</button>
+          <button class="small-btn" id="btn-team-dist-plus">+250m</button>
+          <span class="dist-badge" id="team-dist-badge">1500m</span>
+        </div>
+        <select id="team-theme-select" class="select-input"></select>
+      </div>
+      <div id="team-joiner-info" class="lobby-info-line">
+        Target Distance: <strong class="info-dist" id="team-joiner-dist">1500m</strong> · Theme: <strong class="info-theme" id="team-joiner-theme">Auto-Cycle</strong>
+      </div>
+      <button class="primary-btn" id="btn-team-ready" style="display:none;">CLICK TO READY UP</button>
+      <button class="primary-btn" id="btn-team-start" disabled>START GAME</button>
+    </div>
+
+    <div id="bottom-utility-bar">
+      <button class="util-pill" id="btn-open-hangar">SPACECRAFT HANGAR · <span id="equipped-ship-name" class="accent-text ship-highlight">Apex V8</span></button>
+      <button class="util-pill" id="btn-open-settings">SETTINGS</button>
+      <button class="util-pill" id="btn-audio-toggle">AUDIO: ON</button>
+    </div>
+  </div>
+
+  <!-- 3. 32-Spacecraft Interactive 3D Hangar Stage -->
+  <div id="hangar-screen" class="screen-layer">
+    <div class="glass-card hangar-wrap hangar-layout-grid">
+      <div class="hangar-left-col">
+        <div class="hangar-top-bar">
+          <button class="small-btn" id="btn-hangar-back">BACK</button>
+          <span class="panel-title" id="hangar-ship-title">#09 Apex V8</span>
+          <span class="pill-badge" id="hangar-ship-gen">GEN 2 · Gunship</span>
+        </div>
+        <div class="hangar-canvas-wrap hangar-3d-stage">
+          <canvas id="hangar-3d-canvas"></canvas>
+          <div class="hangar-canvas-bar hangar-stage-overlay-btns">
+            <span>360° VIEW</span>
+            <div class="hangar-canvas-actions">
+              <button class="small-btn wireframe-btn" id="btn-wireframe-toggle">WIREFRAME: OFF</button>
+            </div>
+          </div>
+        </div>
+        <div class="hangar-telemetry-bars">
+          <div class="stat-line hangar-stat-row">
+            <span class="hangar-stat-label">Length (Z-Clearance)</span>
+            <span id="stat-len-val" class="hangar-stat-value">2.2m</span>
+          </div>
+          <div class="stat-track hangar-stat-track">
+            <div class="stat-fill hangar-stat-fill" id="stat-len-bar" style="width:55%;"></div>
+          </div>
+          <div class="stat-line hangar-stat-row">
+            <span class="hangar-stat-label">Width (Wingspan)</span>
+            <span id="stat-wid-val" class="hangar-stat-value">1.0m</span>
+          </div>
+          <div class="stat-track hangar-stat-track">
+            <div class="stat-fill hangar-stat-fill" id="stat-wid-bar" style="width:66%;"></div>
+          </div>
+          <div class="stat-line hangar-stat-row">
+            <span class="hangar-stat-label">Thruster Velocity</span>
+            <span id="stat-spd-val" class="hangar-stat-value">8.5</span>
+          </div>
+          <div class="stat-track hangar-stat-track">
+            <div class="stat-fill hangar-stat-fill" id="stat-spd-bar" style="width:77%;"></div>
+          </div>
+        </div>
+        <div class="hangar-weapon-card">
+          <div class="weapon-card-label">ONE-SHOT WEAPON: <span id="hangar-weapon-name">V8 Plasma Repeaters</span></div>
+        </div>
+        <div class="hangar-procon-card">
+          <div class="pro-line"><strong>PRO:</strong> <span id="hangar-pro-text">Well-rounded speed and handling; reliable.</span></div>
+          <div class="con-line"><strong>CON:</strong> <span id="hangar-con-text">Requires disciplined timing on dual fans.</span></div>
+        </div>
+        <button class="primary-btn equip-btn" id="btn-hangar-equip">EQUIP &amp; RETURN</button>
+      </div>
+
+      <div class="hangar-right-col">
+        <div class="hangar-fleet-header panel-top-row">
+          <span class="panel-title">WEAPONIZED FLEET (32 CRAFT)</span>
+        </div>
+        <div id="hangar-gen-tabs">
+          <button class="gen-tab active" data-gen="ALL">ALL</button>
+          <button class="gen-tab" data-gen="GEN 1">GEN 1</button>
+          <button class="gen-tab" data-gen="GEN 2">GEN 2</button>
+          <button class="gen-tab" data-gen="GEN 3">GEN 3</button>
+          <button class="gen-tab" data-gen="GEN 4">GEN 4</button>
+          <button class="gen-tab" data-gen="GEN 5">GEN 5</button>
+        </div>
+        <div id="hangar-fleet-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. System Settings Modal -->
+  <div id="settings-modal" class="screen-layer">
+    <div class="glass-card settings-box settings-modal-card">
+      <div class="settings-header-row panel-top-row">
+        <span class="settings-title panel-title">SYSTEM SETTINGS</span>
+        <button class="small-btn" id="btn-settings-close">CLOSE</button>
+      </div>
+      <div class="settings-body">
+        <div class="setting-row diagnostic-row">
+          <span class="diagnostic-label">Working</span>
+          <span id="working-led-indicator" class="led-dot"></span>
+        </div>
+        <div class="setting-row">
+          <span>Master Volume</span>
+          <input type="range" class="settings-slider" id="slider-master" min="0" max="100" value="84">
+        </div>
+        <div class="setting-row">
+          <span>Music Synth Volume</span>
+          <input type="range" class="settings-slider" id="slider-music" min="0" max="100" value="80">
+        </div>
+        <div class="setting-row">
+          <span>SFX &amp; Weapons</span>
+          <input type="range" class="settings-slider" id="slider-sfx" min="0" max="100" value="85">
+        </div>
+        <div class="setting-row">
+          <span>Steering Sensitivity</span>
+          <input type="range" class="settings-slider" id="slider-sens" min="40" max="160" value="100">
+        </div>
+        <div class="setting-row">
+          <span>Graphics Profile</span>
+          <select id="select-graphics" class="select-input settings-dropdown">
+            <option value="auto">Auto (60 FPS)</option>
+            <option value="high">High</option>
+            <option value="perf">Performance</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <span>Input Mode</span>
+          <select id="select-input-mode" class="select-input settings-dropdown">
+            <option value="auto">Auto (Gyro / Desktop)</option>
+            <option value="gyro">Mobile Gyroscope</option>
+            <option value="joystick">Virtual Joystick</option>
+            <option value="desktop">Desktop Keys/Mouse</option>
+          </select>
+        </div>
+        <div class="setting-row">
+          <span>Fire &amp; Boost Side</span>
+          <select id="select-button-side" class="select-input settings-dropdown">
+            <option value="RIGHT_DEFAULT">Right (Fire · Boost)</option>
+            <option value="RIGHT_SWAPPED">Right (Boost · Fire)</option>
+            <option value="LEFT_DEFAULT">Left (Fire · Boost)</option>
+            <option value="LEFT_SWAPPED">Left (Boost · Fire)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Clean Reference In-Game HUD -->
+  <div id="hud-screen" class="screen-layer">
+    <div id="hud-race-progress-track" class="hud-top-progress">
+      <div id="hud-race-progress-fill"></div>
+    </div>
+
+    <div id="hud-combat-alert" class="hud-combat-alert"></div>
+
+    <div id="hud-top-right">
+      <button class="hud-Ctrl-pill" id="btn-gyro-toggle">GYRO: ON</button>
+      <button class="hud-Ctrl-pill" id="btn-gyro-recenter">RECENTER</button>
+      <button class="pause-btn" id="btn-hud-pause" title="Pause">||</button>
+      <button class="hud-Ctrl-pill" id="btn-fullscreen-toggle" title="Toggle Fullscreen">[ ]</button>
+    </div>
+
+    <div class="hud-top-row">
+      <div class="hud-left-stack hud-top-left-cluster">
+        <div id="hud-score">0</div>
+        <div id="hud-distance">0 m</div>
+        <div id="hud-combo-badge" class="hud-combo-badge">1.0x AERO STREAK</div>
+        <div id="hud-sub-alert"></div>
+        <div class="hud-bars-card">
+          <div class="hud-bars-header">
+            <span>HEALTH</span>
+            <span id="hud-health-pct" class="hud-health-pct">100%</span>
+          </div>
+          <div id="hud-health-bar" class="health-bar-track hud-bar-track">
+            <div id="hud-hull-bar" class="health-bar-fill"></div>
+          </div>
+          <div class="hud-weapon-row">
+            <span id="hud-weapon-status">ONE-SHOT READY</span>
+          </div>
+          <div id="hud-drone-status-pill" class="hud-drone-status-pill">DRONE HITS: 0/6 · SPD 100%</div>
+        </div>
+        <div id="hud-team-shields-box">
+          <div class="team-shield-mini-row">
+            Team 1: <span id="hud-t1-shields" class="team-1-color">3/3</span> | Team 2: <span id="hud-t2-shields" class="team-2-color">3/3</span> | <span id="hud-team-combo">1x</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud-bottom-row">
+      <div id="mobile-joystick-zone">
+        <div id="mobile-joystick-knob"></div>
+      </div>
+      <div class="hud-actions-right hud-bottom-right-actions">
+        <button class="action-circle" id="btn-fire">
+          <span class="action-main-label">FIRE</span>
+          <span id="fire-btn-sub" class="action-sub-fire">ONE-SHOT</span>
+        </button>
+        <button class="action-circle" id="btn-boost">
+          <span class="action-main-label">BOOST</span>
+          <span id="boost-btn-sub" class="action-sub-boost">TURBO</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Telemetry Report & Game Over Modal -->
+  <div id="gameover-modal" class="screen-layer gameover-backdrop">
+    <div class="glass-card menu-substep active gameover-card">
+      <div class="pill-badge" id="gameover-badge">TELEMETRY REPORT</div>
+      <div class="panel-title gameover-title" id="gameover-title">HULL SHATTERED</div>
+      <div id="gameover-reason" class="gameover-reason">Impact with solid machined turbine</div>
+      <div class="gameover-metrics">
+        <div class="gameover-metric-box">
+          <div class="metric-label">SCORE</div>
+          <div id="gameover-score" class="metric-val">0</div>
+        </div>
+        <div class="gameover-metric-box">
+          <div class="metric-label">DISTANCE</div>
+          <div id="gameover-distance" class="metric-val accent-text">0 m</div>
+        </div>
+      </div>
+      <div id="gameover-mvp-stats" class="gameover-mvp-stats">
+        Top Speed: 0 m/s | V-Hunters Destroyed: 0 | Lockdowns Breached: 0 | Near-Misses: 0
+      </div>
+      <div class="gameover-btn-group">
+        <button class="primary-btn" id="btn-gameover-retry">LAUNCH AGAIN</button>
+        <button class="small-btn gameover-menu-btn" id="btn-gameover-menu">MAIN MENU</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="core.js"></script>
+  <script src="ships.js"></script>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
