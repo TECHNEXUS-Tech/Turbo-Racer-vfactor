@@ -1,0 +1,16 @@
+{
+  "appId": "com.vfactor.turboracer",
+  "appName": "Turbo Racer",
+  "webDir": "www",
+  "bundledWebRuntime": false,
+  "backgroundColor": "#04050a",
+  "server": {
+    "androidScheme": "https",
+    "cleartext": true
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  }
+}

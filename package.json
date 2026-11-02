@@ -1,0 +1,40 @@
+{
+  "name": "turbo-racer-vfactor",
+  "version": "1.0.0",
+  "description": "3D High-Speed Sci-Fi Aeronautical Tunnel Combat & Cross-City Multiplayer Racing — V-FACTOR STUDIOS (Built by Vinay)",
+  "main": "main.js",
+  "author": "Vinay (@_the_v_factor_) — V-FACTOR STUDIOS / TECHNEXUS-Tech",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TECHNEXUS-Tech/Turbo-Racer-vfactor.git"
+  },
+  "scripts": {
+    "start": "npx serve . -l 5500",
+    "electron": "electron .",
+    "build:exe": "electron-packager . TurboRacer --platform=win32 --arch=x64 --out=dist --overwrite",
+    "cap:sync": "npx cap sync android",
+    "cap:open": "npx cap open android"
+  },
+  "keywords": [
+    "turbo-racer",
+    "v-factor-studios",
+    "threejs",
+    "webgl",
+    "webrtc",
+    "peerjs",
+    "multiplayer-game",
+    "3d-space-game",
+    "capacitor",
+    "electron"
+  ],
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-packager": "^17.1.2"
+  }
+}
