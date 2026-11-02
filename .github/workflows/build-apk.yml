@@ -1,0 +1,58 @@
+name: Build Turbo Racer Native Android APK
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-android-apk:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Checkout Game Repository
+        uses: actions/checkout@v4
+
+      - name: 2. Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: 3. Setup Java JDK 17 for Android Gradle
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: 4. Prepare Web Assets & Initialize Capacitor Android
+        run: |
+          mkdir -p www
+          cp -f index.html styles.css core.js ships.js engine.js app.js manifest.json www/ 2>/dev/null || true
+          cp -f three.min.js peerjs.min.js www/ 2>/dev/null || true
+          if [ ! -f www/three.min.js ]; then
+            curl -L "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" -o www/three.min.js
+          fi
+          if [ ! -f www/peerjs.min.js ]; then
+            curl -L "https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js" -o www/peerjs.min.js
+          fi
+          npm init -y
+          npm install @capacitor/core@6 @capacitor/cli@6 @capacitor/android@6
+          npx cap init "Turbo Racer" com.vfactor.turboracer --web-dir www
+          npx cap add android
+
+      - name: 5. Lock AndroidManifest.xml to Hardware Landscape & Fullscreen
+        run: |
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          sed -i 's/android:name=".MainActivity"/android:name=".MainActivity" android:screenOrientation="sensorLandscape"/' "$MANIFEST"
+          npx cap sync android
+
+      - name: 6. Compile Native Android APK with Gradle
+        working-directory: ./android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: 7. Upload Finished Turbo-Racer-VFactor.apk
+        uses: actions/upload-artifact@v4
+        with:
+          name: Turbo-Racer-VFactor-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
