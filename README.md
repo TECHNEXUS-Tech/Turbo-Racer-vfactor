@@ -6,7 +6,7 @@
 ![Multiplayer](https://img.shields.io/badge/MULTIPLAYER-WEBRTC%20P2P%20(STUN%2FTURN)-ff2a55?style=for-the-badge&labelColor=04050a)
 ![Platform](https://img.shields.io/badge/PLATFORM-ANDROID%20APK%20%7C%20WINDOWS%20%7C%20WEB-fbbf24?style=for-the-badge&labelColor=04050a)
 
-**Turbo Racer** is a high-speed 3D sci-fi aeronautical tunnel combat and multiplayer racing game engineered by **Vinay (`@_the_v_factor_`) — V-FACTOR STUDIOS / TECHNEXUS-Tech**.
+**Turbo Racer** is a high-speed 3D sci-fi aeronautical tunnel combat and multiplayer racing game engineered by **Vinay (`@karalkar_vinay`) — V-FACTOR STUDIOS / TECHNEXUS-Tech**.
 
 Pilot **32 bespoke weaponized spacecraft** across 5 generations through machined rotating turbine conduits, multi-chord security laser webs, dynamic closing bulkhead shutters, full-tunnel 36-beam laser lockdown barriers, and autonomous AI **White V-Hunter UCAV Drone Squadrons**.
 
@@ -63,7 +63,7 @@ Zero external MP3/WAV dependencies — 100% real-time WebAudio synthesis featuri
 
 | Platform | SteerRocket | Fire One-Shot Ultimate | Ignite Turbo Boost | Evasive 360° Barrel Roll |
 | :--- | :--- | :--- | :--- | :--- |
-| **Windows / Desktop** | Move Mouse Cursor *or* `W A S D` / `Arrow Keys` | `Right-Click`, `F`, `E`, `Enter`, or `FIRE` Button | **Double-Click & Hold Left Mouse** *or* Hold `Spacebar` | Double-Tap `A`/`D` *or* Press `Q`/`R` |
+| **Windows / Desktop** | Move Mouse Cursor *or* `W A S D` / `Arrow Keys` | `Right-Click`, `F`, `E`, `Enter`, or `FIRE` Button | **Triple-Click & Hold Left Mouse** *or* Hold `Spacebar` | Double-Tap `A`/`D` *or* Press `Q`/`R` |
 | **Android & iOS** | **Landscape Gyroscope Tilt** *or* **Virtual Thumbstick** | Tap `FIRE` Button | Tap `BOOST` Button | Quick Flick |
 
 ---
@@ -79,6 +79,6 @@ This repository includes an automated **GitHub Actions Capacitor Android Builder
 
 ## 📜 Credits & License
 
-* **Studio:** V-FACTOR STUDIOS (`@_the_v_factor_`)
+* **Studio:** V-FACTOR STUDIOS (`@karalkar_vinay`)
 * **Creator & Lead Engineer:** Vinay (`TECHNEXUS-Tech`)
 * **License:** MIT License — Copyright © 2026 Vinay // V-FACTOR STUDIOS.
